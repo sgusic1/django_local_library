@@ -17,6 +17,8 @@ def index(request):
     #The 'all()' is implied by default.
     num_authors = Author.objects.count()
 
+
+
     #Books containing the keyword
     keyword = 'fantasy'
     num_books_keyword = Book.objects.all().filter(title__icontains=keyword).count()
@@ -40,6 +42,16 @@ def index(request):
 
 class BookListView(generic.ListView):
     model = Book
+    paginate_by = 2
 
 class BookDetailView(generic.DetailView):
     model = Book
+
+
+class AuthorListView(generic.ListView):
+    model = Author
+    paginate_by = 5
+
+class AuthorDetailView(generic.DetailView):
+    model = Author
+
