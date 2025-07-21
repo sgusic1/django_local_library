@@ -17,7 +17,15 @@ def index(request):
     #The 'all()' is implied by default.
     num_authors = Author.objects.count()
 
-
+    #Number of visits to this view, as counted in the session variable
+    num_visits = request.session.get('num_visits', 0)
+    cookies_accepted = request.COOKIES.get('cookies_accepted')
+    if cookies_accepted == "true" and not num_visits and not request.session.test_cookie_worked(): 
+        request.session.set_test_cookie()
+    elif cookies_accepted == "true":
+        num_visits += 1
+        request.session['num_visits'] = num_visits
+    
 
     #Books containing the keyword
     keyword = 'fantasy'
@@ -33,7 +41,8 @@ def index(request):
         'num_authors': num_authors,  
         'num_books_keyword': num_books_keyword,
         'num_genres_keyword': num_genres_keyword,
-        'keyword': keyword
+        'keyword': keyword,
+        'num_visits': num_visits
     }
 
     #Render the HTML template index.html with the data in the context variable
