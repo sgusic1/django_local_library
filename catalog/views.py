@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Book, Author, BookInstance, Genre
 from django.views import generic
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 def index(request):
     """View fucntion for home page of site."""
@@ -20,12 +21,16 @@ def index(request):
     #Number of visits to this view, as counted in the session variable
     num_visits = request.session.get('num_visits', 0)
     cookies_accepted = request.COOKIES.get('cookies_accepted')
-    if cookies_accepted == "true" and not num_visits and not request.session.test_cookie_worked(): 
+    if cookies_accepted is None: 
         request.session.set_test_cookie()
     elif cookies_accepted == "true":
-        num_visits += 1
-        request.session['num_visits'] = num_visits
-    
+        if not request.session.test_cookie_worked() and num_visits == 0:
+            request.session.set_test_cookie()
+        else: 
+            num_visits += 1
+            request.session['num_visits'] = num_visits
+        
+
 
     #Books containing the keyword
     keyword = 'fantasy'
@@ -63,4 +68,5 @@ class AuthorListView(generic.ListView):
 
 class AuthorDetailView(generic.DetailView):
     model = Author
+
 
