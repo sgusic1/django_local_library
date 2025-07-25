@@ -76,3 +76,12 @@
       inset 2px 2px 2px rgba(3, 3, 3, 0.658),
       inset -2px -2px 2px #c9c7c7;
 }
+
+#logout-form { 
+    display: inline;
+}
+
+#logout-form button {
+    padding: 0;
+    margin: 0;
+}
