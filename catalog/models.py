@@ -3,6 +3,8 @@ from django.urls import reverse #Used in get_absolute_url() to get URL for speci
 from django.db.models import UniqueConstraint #Constrains fields to unique values 
 from django.db.models.functions import Lower #Returns lower cased value of field
 import uuid
+from django.conf import settings
+from datetime import date
 
 
 
@@ -30,7 +32,6 @@ class Genre(models.Model):
                 violation_error_message="Genre already exists (case insensitive match)"
             ),
         ]
-    
 
 
 
@@ -68,6 +69,7 @@ class BookInstance(models.Model):
     book = models.ForeignKey('Book', on_delete=models.RESTRICT, null=True)
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
+    borrower = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
 
     LOAN_STATUS = (
         ('m', 'Maintenance'),
@@ -90,7 +92,10 @@ class BookInstance(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.id} ({self.book.title})'
-    
+
+    @property
+    def is_overdue(self):
+        return bool(self.due_back and date.today() > self.due_back)
 
 
 
@@ -139,3 +144,5 @@ class Language(models.Model):
                 violation_error_message="Language already exists (case insensitive match)"
             )
         ]
+
+
