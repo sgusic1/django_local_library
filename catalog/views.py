@@ -1,8 +1,15 @@
-from django.shortcuts import render
+import datetime
+
+from django.shortcuts import render, get_object_or_404
 from .models import Book, Author, BookInstance, Genre
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required, permission_required
+
+from catalog.forms import RenewBookForm
 
 def index(request):
     """View fucntion for home page of site."""
@@ -22,6 +29,7 @@ def index(request):
     #Number of visits to this view, as counted in the session variable
     num_visits = request.session.get('num_visits', 0)
     cookies_accepted = request.COOKIES.get('cookies_accepted')
+    print(num_visits)
     if cookies_accepted is None: 
         request.session.set_test_cookie()
     elif cookies_accepted == "true":
@@ -91,3 +99,34 @@ class AllBorrowedBooksListView(PermissionRequiredMixin, generic.ListView):
 
     def get_queryset(self):
         return(BookInstance.objects.filter(status='o').order_by('due_back'))
+
+
+@login_required
+@permission_required('catalog.can_renew', raise_exception=True)
+def renew_book_librarian(request, pk):
+    book_instance = get_object_or_404(BookInstance, pk=pk)
+
+    #If it's a POST request then proccess the form data
+    if request.method == 'POST':
+
+        #Create a form instance and populate it with data from the request (binding)
+        form = RenewBookForm(request.POST)
+
+        #If form valid
+        if form.is_valid():
+            book_instance.due_back = form.cleaned_data['renewal_date']
+            book_instance.save()
+        
+            #redirection to new url 
+            return HttpResponseRedirect(reverse('all-borrowed'))
+
+    else:
+        proposal_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
+        form = RenewBookForm(initial={'renewal_date':proposal_renewal_date})
+        
+    context = {
+        'form': form,
+        'book_instance': book_instance,
+    }
+
+    return render(request, 'catalog/book_renew_librarian.html', context)
