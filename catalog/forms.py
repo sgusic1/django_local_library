@@ -26,34 +26,11 @@ class RenewBookForm(forms.Form):
         return data
 
 
-class BookCreateForm(forms.Form):
+class BookCreateForm(forms.ModelForm):
     """Form class for creating and updating a Book record"""
-    title = forms.CharField(
-        min_length=1,
-        max_length=100, 
-        help_text="Enter the title of the book."
-        )
-    author = forms.ModelChoiceField(
-        queryset=Author.objects.all(),
-        help_text="Choose Author"
-    )
-    summary = forms.CharField(
-        widget=forms.Textarea,
-        max_length=1000, 
-        help_text="Enter a brief description of the book"
-    )
-    isbn = forms.CharField(
-        max_length=20,
-        help_text='13 Character <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>'
-    )
-    genre = forms.ModelMultipleChoiceField(
-        queryset=Genre.objects.all(),
-        help_text="Choose genre"
-    )
-    language = forms.ModelChoiceField(
-        queryset=Language.objects.all(),
-        help_text="Choose language."
-    )
+    class Meta:
+        model = Book
+        fields = ['title', 'author', 'summary', 'isbn', 'genre', 'language']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -77,11 +54,14 @@ class BookCreateForm(forms.Form):
         check = (10 - (sum(int(d) * (1 if i % 2 == 0 else 3) for i, d in enumerate(isbn_data[:-1])) % 10 )) % 10
         if check != int(isbn_data[-1]):
             raise ValidationError("Invalid ISBN.")
-        if Book.objects.filter(isbn=isbn_data).exists():
+
+        book_with_isbn = Book.objects.filter(isbn = isbn_data)
+        if self.instance and self.instance.pk:
+            book_with_isbn = book_with_isbn.exclude(pk=self.instance.pk)
+        if book_with_isbn.exists():
             raise ValidationError("A book with this ISBN already exists.")
 
         return isbn_data
-
 
     def clean(self):
         data = super().clean()

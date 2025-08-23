@@ -164,7 +164,7 @@ class AuthorDelete(PermissionRequiredMixin, DeleteView):
             )
 
 @login_required
-@permission_required('catalog.add_book')
+@permission_required('catalog.add_book', raise_exception=True)
 def BookCreateView(request):
     """View function for Book create page"""
     if request.method == "POST":
@@ -202,3 +202,34 @@ def BookCreateView(request):
     }
 
     return render(request, 'catalog/book_form.html', context)
+
+@login_required
+@permission_required('catalog.change_book', raise_exception=True)
+def BookUpdateView(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+
+    if request.method=="POST":
+        form = BookCreateForm(request.POST, instance=book)
+        if form.is_valid():
+            try:
+                with transaction.atomic():
+                    update_book = form.save()
+            except IntegrityError as e:
+                msg = str(e).lower()
+                if 'isbn' in msg:
+                    form.add_error('isbn', 'A book with this ISBN already exists.')
+                else:
+                    form.add_error(None, 'Database error. Please try again.')
+            else:
+                return redirect('book-detail', pk=book.pk)
+
+    else:
+        form = BookCreateForm(instance=book)
+    
+    context = {
+        'form': form,
+        'book': book
+    }
+    
+    return render(request, 'catalog/book_form.html', context)
+

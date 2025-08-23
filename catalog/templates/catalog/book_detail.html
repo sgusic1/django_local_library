@@ -1,5 +1,15 @@
 {% extends "base_generic.html" %}
 
+{% block sidebar %}
+{{ block.super }}
+  {% if perms.catalog.change_book %}
+  <hr />
+  <ul class="sidebar-nav">
+      <li><a href="{% url 'book-update' book.pk %}">Updae book</a></li>
+  </ul>
+  {% endif %}
+{% endblock %}
+
 {% block content %}
   <h1>Title: {{ book.title }}</h1>
 
