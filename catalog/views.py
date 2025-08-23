@@ -1,6 +1,6 @@
 import datetime
-
-from django.shortcuts import render, get_object_or_404
+from django.db import IntegrityError, transaction
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Book, Author, BookInstance, Genre
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -9,10 +9,11 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required, permission_required
 
-from catalog.forms import RenewBookForm
+from .forms import RenewBookForm, BookCreateForm
 
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+
 
 
 def index(request):
@@ -161,3 +162,43 @@ class AuthorDelete(PermissionRequiredMixin, DeleteView):
             return HttpResponseRedirect(
                 reverse("author-delete", kwargs={"pk":self.object.pk})
             )
+
+@login_required
+@permission_required('catalog.add_book')
+def BookCreateView(request):
+    """View function for Book create page"""
+    if request.method == "POST":
+        form = BookCreateForm(request.POST)
+
+        if form.is_valid():
+            form_data = form.cleaned_data
+            try:
+                with transaction.atomic():
+                    book = Book.objects.create(
+                        title=form_data["title"],
+                        author=form_data["author"],
+                        summary=form_data["summary"],
+                        isbn=form_data["isbn"],
+                        language=form_data["language"]
+                    )
+                    book.genre.set(form_data["genre"])
+
+            #catch any error if db commit fails
+            except IntegrityError as e:
+                msg = str(e).lower()
+                if "isbn" in msg:
+                    form.add_error("isbn", "A book with this ISBN already exists.")
+                else:
+                    form.add_error(None, "Database error. Please try again.")
+                  
+            else:
+                return redirect("book-detail", pk=book.pk)
+
+    else:
+        form = BookCreateForm() 
+      
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'catalog/book_form.html', context)
