@@ -2,8 +2,8 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <h1>{% if form.instance.pk %}
-    Edit Book
+  <h1>{% if book %}
+    Edit Book: {{ book.title }}
   {% else %}
     Create Book
   {% endif %}
