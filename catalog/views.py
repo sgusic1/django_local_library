@@ -70,7 +70,7 @@ def index(request):
 
 class BookListView(generic.ListView):
     model = Book
-    paginate_by = 2
+    paginate_by = 4
 
 class BookDetailView(generic.DetailView):
     model = Book
@@ -233,3 +233,11 @@ def BookUpdateView(request, pk):
     
     return render(request, 'catalog/book_form.html', context)
 
+def BookDeleteView(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+
+    if request.method == "POST":
+        book.delete()
+        return redirect('books')
+    else:
+        return render(request, 'catalog/book_confirm_delete.html', context={'book':book})
