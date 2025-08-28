@@ -1,0 +1,30 @@
+services:
+  app:
+    image: sgusic29/django-local-library
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    command: >
+      sh -c "
+        python manage.py createsuperuser --noinput || true &&
+        python manage.py runserver 0.0.0.0:8000
+      "
+    volumes:
+      - django_data:/app/data
+
+  migrate:
+    image: sgusic29/django-local-library
+    build: .
+    command: ["python", "manage.py", "migrate"]
+    volumes:
+      - django_data:/app/data
+
+volumes:
+  django_data:

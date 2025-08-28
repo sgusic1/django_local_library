@@ -1,0 +1,24 @@
+# Exclude version control
+.git
+.gitignore
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+env/
+venv/
+
+# Local settings and logs
+local_settings.py
+*.log
+
+# Database file
+db.sqlite3
+data/db.sqlite3
+
+# Docker and compose configs (if any)
+Dockerfile
+docker-compose*.yml
