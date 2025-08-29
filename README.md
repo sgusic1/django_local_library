@@ -18,3 +18,7 @@ A compact library system built with Django.
 - ORM/DB: SQLite by default
 - Templates: Django Template Language (DTL)
 - Auth: django.contrib.auth (users, groups, permissions)
+
+## Quick start
+### 1) Start your Python environment
+Activate your Python 3.12+ environment
