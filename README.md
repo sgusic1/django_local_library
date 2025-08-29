@@ -14,3 +14,7 @@ A compact library system built with Django.
 - Admin site tuned for quick data entry (filters, inlines)
 
 ## Tech stack
+- Python + Django
+- ORM/DB: SQLite by default
+- Templates: Django Template Language (DTL)
+- Auth: django.contrib.auth (users, groups, permissions)
