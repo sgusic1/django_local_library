@@ -12,3 +12,5 @@ A compact library system built with Django.
   - Per-model permissions (e.g. add/change/delete/view)
   - Optional role groups (e.g. Librarian, Member)
 - Admin site tuned for quick data entry (filters, inlines)
+
+## Tech stack
