@@ -65,3 +65,15 @@ It uses a persistent volume to store application data and separates migration fr
  **`django_data`**
    - Persistent named volume that keeps Django’s database and other data across container restarts.
 
+## Environment Variables
+The app reads environment variables from a .env file in the project root. These variables are mainly used for creating the initial Django superuser (e.g. username, email, password).
+
+## Usage
+### Start App + Migrations
+```bash
+docker compose up -d
+```
+### Stop App
+```bash
+docker compose down
+```
