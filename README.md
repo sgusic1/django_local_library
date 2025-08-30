@@ -38,6 +38,6 @@ python manage.py createsuperuser
 ```bash
 python manage.py runserver
 ```
-
+#### then open http://localhost:8000
 
 
