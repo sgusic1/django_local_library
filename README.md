@@ -22,3 +22,22 @@ A compact library system built with Django.
 ## Quick start
 ### 1) Start your Python environment
 Activate your Python 3.12+ environment
+### 2) Install dependencies
+```bash
+pip install -r requirements.txt
+```
+### 3) Set up the database schema
+```bash
+python manage.py migrate
+```
+### 4) Create an admin account
+```bash
+python manage.py createsuperuser
+```
+### 5) Run the development server
+```bash
+python manage.py runserver
+```
+
+
+
