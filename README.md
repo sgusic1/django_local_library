@@ -48,3 +48,20 @@ It uses a persistent volume to store application data and separates migration fr
 ## Prerequisites
 - [Docker](https://docs.docker.com/get-docker/) & [Docker Compose v2+](https://docs.docker.com/compose/install/)
 - Optional: .env file to support environment variables (e.g. Django superuser credentials)
+
+## How It Works
+### Services
+ **`app`**
+   - Builds the Django app from the included Dockerfile (or uses the prebuilt image sgusic29/django-local-library).
+   - Runs python manage.py createsuperuser --noinput || true on startup (superuser creation is skipped if it already exists).
+   - Serves the Django development server on port 8000.
+   - Depends on the migrate service, ensuring database migrations are applied before startup.
+   - Data is stored in a named volume (django_data) mounted at /app/data.
+    
+ **`migrate`**
+   - Service that runs Django migrations (python manage.py migrate) against the same image and volume.
+   - Ensures the database schema is ready before the app starts.
+### Volumes 
+ **`django_data`**
+   - Persistent named volume that keeps Django’s database and other data across container restarts.
+
