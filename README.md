@@ -9,7 +9,7 @@ A compact library system built with Django.
 - User accounts: sign-up, sign-in, sign-out; password change/reset
 - Access control:
   - Login required for protected pages
-  - Per-model permissions (e.g. add/change/delete/view)
+  - Model permissions (e.g. add/change/delete/view)
   - Optional role groups (e.g. Librarian, Member)
 - Admin site tuned for quick data entry (filters, inlines)
 
