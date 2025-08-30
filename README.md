@@ -40,4 +40,11 @@ python manage.py runserver
 ```
 #### then open http://localhost:8000
 
+---
+## 🐳 Docker Compose Setup
+This repository includes a Docker Compose configuration for running the Django Local Library app.
+It uses a persistent volume to store application data and separates migration from runtime for clean startup.
 
+## Prerequisites
+- [Docker](https://docs.docker.com/get-docker/) & [Docker Compose v2+](https://docs.docker.com/compose/install/)
+- Optional: .env file to support environment variables (e.g. Django superuser credentials)
