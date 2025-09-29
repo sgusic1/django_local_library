@@ -78,7 +78,7 @@ class BookDetailView(generic.DetailView):
 
 class AuthorListView(generic.ListView):
     model = Author
-    paginate_by = 5
+    paginate_by = 10
 
 class AuthorDetailView(generic.DetailView):
     model = Author
@@ -237,7 +237,11 @@ def BookDeleteView(request, pk):
     book = get_object_or_404(Book, pk=pk)
 
     if request.method == "POST":
-        book.delete()
-        return redirect('books')
+        try:
+            book.delete()
+            return redirect('books')
+        except IntegrityError as e:
+            return render(request, "catalog/book_confirm_delete.html")
+
     else:
         return render(request, 'catalog/book_confirm_delete.html', context={'book':book})
