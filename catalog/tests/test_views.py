@@ -6,6 +6,7 @@ from catalog.models import Author, BookInstance, Book, Genre, Language
 from django.contrib.auth import get_user_model
 import uuid
 from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 
 User = get_user_model()
 
@@ -271,5 +272,66 @@ class RenewBookInstancesViewTest(TestCase):
         response = self.client.post(reverse('renew-book-librarian', kwargs={'pk': self.test_bookinstance2.pk}), {'renewal_date': date_in_future})
         self.assertEqual(response.status_code, 200)
         self.assertFormError(response.context['form'], 'renewal_date', 'Invalid date - renewal more than 4 weeks ahead')
+    
+class AuthorCreateViewTest(TestCase):
+    def setUp(self):
+        test_user = User.objects.create_user(username='testuser', password='password')
+        test_user_no_perm = User.objects.create_user(username='testusernp', password='pass1')
+        
+        content_typeAuthor = ContentType.objects.get_for_model(Author)
+        perm = Permission.objects.get(codename='add_author', content_type= content_typeAuthor)
+        test_user.user_permissions.add(perm)
+
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get(reverse('author-create'))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(response.url.startswith('/accounts/login/'))
+
+    def test_forbidden_if_logged_in_but_not_correct_permission(self):
+        login = self.client.login(username='testusernp', password='pass1')
+        self.assertTrue(login)
+
+        response = self.client.get(reverse('author-create'))
+        self.assertEqual(response.status_code, 403)
+
+    def test_logged_in_with_permission(self):
+        login = self.client.login(username='testuser', password='password')
+        self.assertTrue(login)
+
+        response = self.client.get(reverse('author-create'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_logged_in_uses_correct_template(self):
+        login = self.client.login(username='testuser', password='password')
+        self.assertTrue(login)
+
+        response = self.client.get(reverse('author-create'))
+        self.assertTemplateUsed(response, 'catalog/author_form.html')
+
+    def test_redirects_to_created_author_on_success(self):
+        login = self.client.login(username='testuser', password='password')
+        self.assertTrue(login)
+
+        response = self.client.post(
+            reverse('author-create'), 
+            {
+                'first_name': 'Ana', 
+                'last_name': 'Biibi', 
+                'date_of_birth': '1900-05-12', 
+                'date_of_death': ''
+            }
+        )
+
+        author = Author.objects.get(first_name='Ana', last_name='Biibi')
+        self.assertRedirects(response, reverse('author-detail', args=[author.id]))
+
+
+
+
 
     
+
+
+
+
