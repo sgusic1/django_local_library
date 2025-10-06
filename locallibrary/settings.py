@@ -9,19 +9,25 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
+from dotenv import load_dotenv
 from pathlib import Path
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+#Supoort env variables from .env file if defined
+env_path = os.path.join(BASE_DIR, '.env')
+load_dotenv(env_path)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-u3obyv#4n&56868byg3o=0c+v%52%qyfw6#z*xv5z#7jq#$j8e'
-
+#SECRET_KEY = 'django-insecure-u3obyv#4n&56868byg3o=0c+v%52%qyfw6#z*xv5z#7jq#$j8e'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-u3obyv#4n&56868byg3o=0c+v%52%qyfw6#z*xv5z#7jq#$j8e')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -133,3 +139,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Crispy Forms configuration
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+if 'DATABASE_URL' in os.environ:
+    DATABASES['default'] = dj_database_url.config(
+        conn_max_age=500,
+        conn_health_checks=True
+    )
