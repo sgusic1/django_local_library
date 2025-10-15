@@ -6,7 +6,7 @@ let is_cookie_accepted = null;
 if(match === undefined) cookie_banner.classList.add('show');
 else {
     is_cookie_accepted = match.split('=')[1];
-    if (is_cookie_accepted !== "true") cookie_banner.classList.add('show');
+    if (is_cookie_accepted) cookie_banner.classList.add('hidden');
 }
 
 
