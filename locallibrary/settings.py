@@ -32,7 +32,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-u3obyv#4n&5686
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
 ALLOWED_HOSTS = ['binaa12.pythonanywhere.com', '127.0.0.1']
-
+CSRF_TRUSTED_ORIGINS = ['https://binaa12.pythonanywhere.com']
 
 # Application definition
 
