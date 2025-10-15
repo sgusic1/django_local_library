@@ -27,6 +27,9 @@
 
 
 }
+#cookie-banner.hidden {
+    display: none;
+}
 
 .cookie-buttons {
     display: flex;
