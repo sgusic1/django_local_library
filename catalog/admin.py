@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Author, Genre, Book, BookInstance, Language
+from django.utils.html import format_html
 
 class BookInstanceInline(admin.TabularInline):
     model = BookInstance
@@ -11,10 +12,17 @@ class BookInline(admin.TabularInline):
 
 # admin.site.register(Book)
 class BookAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author', 'display_genre')
+    list_display = ('title', 'author', 'display_genre', 'language', 'cover_preview')
 
     inlines = [BookInstanceInline]
+
+    def cover_preview(self, obj):
+        if obj.cover_image:
+            return format_html('<img src="{}" width="60"/>', obj.cover_image.url)
+        return ""
+        cover_preview.short_description = 'Cover image'
 admin.site.register(Book, BookAdmin)
+
 
 # admin.site.register(Author)
 # Define the admin class

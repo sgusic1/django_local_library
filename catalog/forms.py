@@ -30,7 +30,7 @@ class BookCreateForm(forms.ModelForm):
     """Form class for creating and updating a Book record"""
     class Meta:
         model = Book
-        fields = ['title', 'author', 'summary', 'isbn', 'genre', 'language']
+        fields = "__all__"
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
