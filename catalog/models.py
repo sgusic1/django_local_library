@@ -113,8 +113,21 @@ class Author(models.Model):
     date_of_birth = models.DateField(null=True, blank=True)
     date_of_death = models.DateField('died', null=True, blank=True)
 
+
+
+
     class Meta:
         ordering = ['last_name', 'first_name']
+        constraints = [
+            models.UniqueConstraint(
+                Lower('first_name'),
+                Lower('last_name'),
+                models.F('date_of_birth'),
+                models.F('date_of_death'),
+                name = "unique_author_case_insensitive",
+                violation_error_message = "Author with the same name and life dates already exists."
+            )
+        ]
 
     def get_absolute_url(self):
         """Returns the URL to access a particular author instance."""

@@ -33,7 +33,7 @@ function Navigation({ data }: Props) {
         <span className="navbar-toggler-icon"></span>
       </button>
       <div
-        className="collapse navbar-collapse d-flex align-items-center"
+        className="collapse navbar-collapse align-items-center"
         id="navbarNavDropdown"
       >
         <ul className="navbar-nav w-100 justify-content-evenly align-items-center ms-5">
@@ -43,12 +43,12 @@ function Navigation({ data }: Props) {
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">
+            <a className="nav-link" href="/catalog/books/">
               Books
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">
+            <a className="nav-link" href="/catalog/authors/">
               Authors
             </a>
           </li>
