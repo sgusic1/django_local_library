@@ -1,6 +1,6 @@
 .my-navbar {
-  background: linear-gradient(90deg, rgba(78, 57, 185, 0.856) 0%, #c27cff 100%);
-  height: 4rem !important;  
+  background: linear-gradient(90deg, rgb(78, 57, 185) 0%, #c27cff 100%);
+  height: 4rem !important;
 }
 
 .my-navbar .nav-link,
@@ -14,11 +14,11 @@
 
 .nav-link:hover {
   color: white !important;
-  transform: scale(1.05); /* slightly enlarges the text */
+  transform: scale(1.05);
 }
 
 .my-logo-image {
-  margin-right: 0px;
+  margin-right: 0;
 }
 
 .my-logo-text {
@@ -29,22 +29,13 @@
 
 .my-logo-text span {
   position: relative;
-  top: -4px; /* adjust up or down as needed */
+  top: -4px;
 }
+
 
 .my-navbar .navbar-nav {
   position: relative;
   top: -4px;
-}
-
-.dropdown-toggle::after {
-  display: none !important;
-}
-
-.my-user-image img {
-  position: relative;
-  top: 3px; /* or tweak until perfectly centered */
-  margin-right: -50px;
 }
 
 .my-navbar + main {
@@ -52,37 +43,24 @@
 }
 
 .my-navbar .container {
-  max-width: 1500px; /* adjust as you like */
+  max-width: 1500px;
 }
 
-.log-button .dropdown-item {
-  display: flex;
-  justify-content: center;   /* horizontal center */
-  align-items: center;       /* vertical center */
-  height: 2rem;              /* smaller height */
-  line-height: 1;            /* remove extra text spacing */
-  padding: 1rem;                /* remove Bootstrap padding */
-  text-align: center;
-  background: #d6b8ff;
-  color: #2d1b69;
+/* Dropdowns */
+.dropdown-toggle::after {
+  display: none !important;
 }
-
-.my-dropdown-menu {
-  background: #c27cff 100%;
-}
-
 
 .my-user-dropdown {
-  position: relative; /* anchor point for absolute positioning */
+  position: relative;
 }
 
-/* dropdown right under the image */
 .dropdown-menu {
   display: none;
   position: absolute;
-  top: 89% !important;  
+  top: 89% !important;
   transform: translateX(35%);
-  margin-top: -1rem; /* small spacing */
+  margin-top: -1rem;
   background: #c27cff;
   border: none;
   border-radius: 8px;
@@ -91,7 +69,101 @@
   z-index: 9999;
 }
 
-/* show dropdown when hovering image or menu */
 .my-user-dropdown:hover .dropdown-menu {
   display: block;
+}
+
+.my-dropdown-menu {
+  background: #c27cff 100%;
+}
+
+.log-button .dropdown-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2rem;
+  line-height: 1;
+  padding: 1rem;
+  text-align: center;
+  background: #d6b8ff;
+  color: #2d1b69;
+}
+
+
+.my-user-image img {
+  position: relative;
+  top: 3px;
+  margin-right: -50px;
+}
+
+
+@media (max-width: 991.98px) {
+  .navbar-collapse.collapsing,
+  .navbar-collapse.show {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center !important;
+    align-items: center !important;
+    background: rgba(98, 67, 180, 0.97);
+    border-radius: 10px;
+    margin-top: 0.5rem;
+    width: 100%;
+    min-height: 50vh;
+    padding: 1rem 0;
+  }
+
+  .navbar-collapse .navbar-nav {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: auto !important;
+    margin: 0 auto !important;
+    gap: 1rem;
+  }
+
+  .navbar-collapse .nav-link {
+    text-align: center;
+    width: 100%;
+  }
+
+  .navbar-toggler {
+    align-self: center;
+    margin-left: auto;
+  }
+
+  .navbar-collapse .my-user-image {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    text-align: center;
+  }
+
+  .navbar-collapse .my-user-image img {
+    display: block;
+    margin: 0 auto;
+    height: 60px;
+    width: auto;
+  }
+  .navbar-collapse {
+    overflow: hidden;
+  }
+  .navbar-collapse {
+  overflow: hidden;
+  transform-origin: top;
+  transform: scaleY(0);
+  opacity: 0;
+  transition: transform 0.35s ease, opacity 0.3s ease;
+  background: linear-gradient(90deg, rgb(78, 57, 185) 0%, #c27cff 100%);
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(120, 0, 180, 0.3);
+  padding: 1rem 0;
+}
+
+.navbar-collapse.show {
+  transform: scaleY(1);
+  opacity: 1;
+}
 }

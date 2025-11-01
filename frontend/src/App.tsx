@@ -3,6 +3,8 @@ import "./App.css";
 import Index from "./pages/Index";
 import Layout from "./components/Layout";
 import Books from "./pages/Books";
+import Authors from "./pages/Authors";
+import BookDetail from "./pages/BookDetail";
 
 function App() {
   return (
@@ -11,7 +13,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Index />} />
-            <Route path="/books" element={<Books />} />
+            <Route path="books" element={<Books />} />
+            <Route path="authors" element={<Authors />} />
+            <Route path="books/:id" element={<BookDetail />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,9 +1,10 @@
 from django.http import JsonResponse
 from catalog.models import Book, Author, BookInstance
-from .serializers import BookSerializer
+from .serializers import BookSerializer, AuthorSerializer
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from django.views.decorators.cache import cache_page
+from rest_framework.response import Response
 
 
 @cache_page(60)
@@ -53,10 +54,43 @@ def loggedUser(request):
     return JsonResponse(data)
 
 class BookPagination(PageNumberPagination):
-    page_size = 4
+    page_size = 15
+
+    def get_paginated_response(self, data):
+        return Response({
+            'count': self.page.paginator.count,
+            'next': self.get_next_link(),
+            'previous': self.get_previous_link(),
+            'page_size': self.page_size,  
+            'results': data,
+        })
 
 class BookListAPIView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     pagination_class = BookPagination
 
+
+class AuthorPagination(PageNumberPagination):
+    page_size = 16
+
+    def get_paginated_response(self, data):
+        return Response({
+            'count': self.page.paginator.count,
+            'next': self.get_next_link(),
+            'previous': self.get_previous_link(),
+            'page_size': self.page_size,
+            'results': data,
+        })
+
+class AuthorListApiView(generics.ListAPIView):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+    pagination_class = AuthorPagination
+
+class BookDetailApiView(generics.RetrieveAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+
+
+    
