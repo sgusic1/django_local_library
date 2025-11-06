@@ -1,0 +1,110 @@
+.my-create-book-title {
+    font-family: "Poppins", "Segoe UI", Roboto, Arial;
+    font-weight: 600;
+    font-size: 2.4rem;
+    color: #2d1b69;
+    margin-top: -2rem;
+    margin-bottom:1rem;
+}
+
+.my-login-title {
+    font-family: "Poppins", "Segoe UI", Roboto, Arial;
+    font-weight: 600;
+    font-size: 2.4rem;
+    color: #2d1b69;
+    margin-top: -2rem;
+    margin-bottom:3rem;
+}
+
+
+.my-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #333;
+}
+
+.my-create-book-title {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.my-form form {
+  background: #fff;
+  border-radius: 1.2rem;
+  padding: 2rem 2.5rem;
+  box-shadow: 0 6px 18px rgba(153, 102, 255, 0.15);
+  transition: all 0.3s ease;
+}
+
+.my-form form:hover {
+  box-shadow: 0 8px 22px rgba(153, 102, 255, 0.25);
+}
+
+.form-label {
+  font-weight: 500;
+  color: #5a2bb0;
+}
+
+.form-control,
+.form-select {
+  border-radius: 0.6rem;
+  border: 1px solid #d8c6ff;
+  padding: 0.6rem 0.8rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #9966ff;
+  box-shadow: 0 0 0 0.2rem rgba(153, 102, 255, 0.25);
+}
+
+.btn-primary {
+  border: none;
+  border-radius: 0.6rem;
+  padding: 0.6rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.25s ease-in-out;
+}
+
+
+.alert-danger {
+  border-radius: 0.6rem;
+  background-color: #fce8f0;
+  color: #c22c64;
+  border: 1px solid #f5b1c8;
+}
+
+.login-button {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .my-form form {
+    width: 90% !important;
+    padding: 1.5rem;
+  }
+}
+.purple-input,
+.purple-select {
+  border-color: #d8c6ff;
+}
+
+.purple-button {
+  background: linear-gradient(90deg, #9966ff, #c27cff);
+  border: none;
+}
+
+.purple-button:hover {
+  background: linear-gradient(90deg, #8b54ff, #b25cff);
+}
+
+.login-button {
+  display: block;
+  margin: 1.5rem auto 0 auto; /* top and auto horizontal */
+  width: fit-content;
+}

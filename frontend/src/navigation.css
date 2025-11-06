@@ -58,9 +58,10 @@
 .dropdown-menu {
   display: none;
   position: absolute;
-  top: 89% !important;
-  transform: translateX(35%);
-  margin-top: -1rem;
+  top: 80%;            
+  left: 50%;            
+  transform: translateX(-50%); 
+  margin-top: 0.5rem;   
   background: #c27cff;
   border: none;
   border-radius: 8px;
@@ -89,12 +90,67 @@
   color: #2d1b69;
 }
 
+.log-button:hover {
+  background-color: #cbaff3;
+}
 
 .my-user-image img {
   position: relative;
   top: 3px;
   margin-right: -50px;
 }
+
+.my-navbar .navbar-collapse {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-around;
+  gap: -20px;
+}
+
+.my-navbar .navbar-nav {
+  flex-grow: 1;
+  justify-content: center !important;
+}
+
+.my-user-dropdown {
+  margin-left: auto;
+}
+
+.my-navbar .navbar-brand {
+  margin-right: 3rem;
+}
+
+.my-user-dropdown {
+  margin-left: 3rem;
+}
+
+.my-navbar .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.my-navbar .navbar-collapse {
+  flex: 1;
+  display: flex !important;
+  justify-content: center !important;
+}
+
+.my-navbar .navbar-nav {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+/* keep space for avatar even when logged out */
+.my-navbar .my-user-dropdown {
+  width: 120px; /* same as avatar image width */
+  text-align: right;
+  flex-shrink: 0;
+}
+
+
+
 
 
 @media (max-width: 991.98px) {
@@ -167,3 +223,5 @@
   opacity: 1;
 }
 }
+
+

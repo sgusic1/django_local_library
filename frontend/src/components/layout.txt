@@ -1,0 +1,42 @@
+import { Outlet, useLocation } from "react-router-dom";
+import Navigation from "./Navigation";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+
+function Layout() {
+  const [data, setData] = useState(null);
+  const location = useLocation();
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/loggeduser/")
+      .then((res) => res.json())
+      .then((data) => setData(data))
+      .catch((err) => console.error("Error fetching data:", err));
+  }, []);
+
+  return (
+    <>
+      <header>
+        <nav className="navbar navbar-expand-lg fixed-top my-navbar">
+          <Navigation data={data} />
+        </nav>
+      </header>
+
+      <main>
+        <motion.div
+          key={location.pathname}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -40 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          style={{ paddingTop: "70px" }}
+        >
+          <Outlet />
+        </motion.div>
+      </main>
+
+      <footer></footer>
+    </>
+  );
+}
+
+export default Layout;

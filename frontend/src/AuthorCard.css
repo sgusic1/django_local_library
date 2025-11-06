@@ -1,0 +1,22 @@
+.my-author-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.281);
+    border-radius: 10px;
+    padding: 20px 7px;
+    font-family: "Poppins", "Nunito Sans", "Segoe UI", sans-serif;
+     transition: transform 0.18s ease, color 0.15s ease;
+
+
+}
+
+.my-author-title {
+    margin-bottom: 2.4rem;
+    margin-top: 1rem;
+}
+
+.my-author-card:hover {
+   transform: scale(97%);
+
+}

@@ -1,0 +1,25 @@
+.my-login {
+    font-family: "Poppins", "Segoe UI", Roboto, Arial;
+    font-weight: 600;
+    font-size: 2.4rem;
+    color: #2d1b69;
+    margin-top: 1.6rem;
+    margin-bottom:2rem;
+}
+
+.my-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+
+}
+
+.my-reset-title {
+    font-family: "Poppins", "Segoe UI", Roboto, Arial;
+    font-weight: 600;
+    font-size: 2.4rem;
+    color: #2d1b69;
+    margin-top: 1.6rem;
+    margin-bottom: 3rem;
+}

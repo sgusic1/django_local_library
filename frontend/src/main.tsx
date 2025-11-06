@@ -1,4 +1,3 @@
-import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -10,9 +9,9 @@ import "./Pagination.css";
 import "./AuthorCard.css";
 import "./BookCardDetail.css";
 import "./Copies.css";
+import "./AuthorBook.css";
+import "./Login.css";
+import "./createbook.css";
+import "./registration.css";
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
-);
+createRoot(document.getElementById("root")!).render(<App />);

@@ -1,0 +1,47 @@
+
+
+.pagination-button {
+    margin: 2.1rem;
+    background-color: rgb(60, 44, 138);
+    border: none;
+    color: white;
+    border-radius: 40px !important;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.btn-primary:hover,.btn-primary:active {
+  background-color: rgb(41, 29, 102) !important;
+  color: white;
+}
+
+.pagination-button:disabled {
+  background-color: rgba(72, 52, 170, 0.603);
+  color: white;                      
+  opacity: 1;                        
+  cursor: not-allowed;              
+}
+
+.pagination-button.btn-primary:active {
+  background-color: rgb(40, 28, 112); 
+  color: white;
+  transform: scale(0.97);
+}
+
+.pagination-text {
+    color: #0d0531da;
+}
+
+.login-button {
+  margin: 2.1rem;
+  background-color: rgb(60, 44, 138);
+  border: none;
+  color: white;
+  border-radius: 40px !important;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

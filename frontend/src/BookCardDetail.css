@@ -1,0 +1,74 @@
+.book-detail-title {
+    font-family: "Playfair Display", serif;
+    font-weight: 700;
+    color: #1a0f40;
+    font-size: 2.6rem;
+    margin-top: 1rem;
+}
+
+.book-detail-title-div {
+  text-align: left;
+}
+
+
+span.auhtor-name {
+  font-family: "Lora", serif;
+  font-weight: 500;
+  color: #3d1d7c;
+  font-size: 2rem;
+}
+
+
+.book-card-detail {
+  position: relative;
+  width: 100%;
+  position: relative;
+  padding: 35px 300px 0px 30px;
+  
+}
+
+.book-card-detail-outer {
+  margin-top: 1rem;
+  background-color: white;
+  border-radius: 10px;
+  text-align: justify;
+  width: 100%;
+  position: relative;
+  padding: 0 0 40px 0;
+}
+
+
+.book-detail {
+  font-weight: 650;
+}
+
+.book-div {
+  margin-top: 1rem;
+  
+}
+
+.book-cover {
+  position: absolute;
+  top: -170px;
+  right: 0px;
+  width: 270px;
+  height: 390px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0px 0px 13px 6px rgba(42, 17, 131, 0.774);
+}
+
+
+.book-copies {
+  font-weight: 500;
+  font-family: "Lora", serif;
+  font-size: 1.6rem;
+}
+
+.copies-div {
+  padding: 30px 30px 30px 30px;
+}
+
+.book-card-margin {
+  margin-top: 1rem;
+}
