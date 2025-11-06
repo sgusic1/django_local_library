@@ -47,6 +47,14 @@ class Book(models.Model):
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
     cover_image = models.ImageField(upload_to="book_covers/", blank=True, null = True, help_text="Upload a cover image cover for the book.")
     
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["title", "author", "summary"],
+                name="unique_book_per_author",
+                violation_error_message="A book with the same title, author, and summary already exists."
+            )
+        ]
 
     def __str__(self):
         """String for representing the Model object."""
@@ -89,6 +97,12 @@ class BookInstance(models.Model):
     )
 
     class Meta: 
+        constraints = [
+            models.UniqueConstraint(
+               fields=["book", "imprint", "borrower"],
+               name="unique_copy_per_borrower"
+            )
+        ]
         ordering = ['due_back']
         permissions = (
             ("can_mark_returned", "Set book as returned"),

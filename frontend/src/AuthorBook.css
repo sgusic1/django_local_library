@@ -1,0 +1,126 @@
+
+.book-detail {
+  font-weight: 650;
+}
+
+
+.book-div {
+  width: 100%;
+  max-width: 500px;         /* slightly wider cards for balance */
+  box-shadow: 0 2px 12px rgba(8, 6, 77, 0.356);
+  border-radius: 11px;
+  background: white;
+  padding: 18px 30px;
+  margin-top: 0;
+}
+
+
+.book-div:hover{
+  box-shadow: 0 2px 12px 5px rgba(8, 6, 77, 0.411);
+  transition: transform 2s ease;
+}
+
+
+
+.copies-div .row {
+  --bs-gutter-x: -2rem;  /* horizontal gap */
+  --bs-gutter-y: 2.5rem;  /* vertical gap */
+}
+
+
+.authorbook-card {
+  display: flex;
+  align-items: center;            /* ⬅️ center image vertically */
+  justify-content: space-between; /* text left, image right */
+  gap: 20px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 2px 12px rgba(8, 6, 77, 0.356);
+  border-radius: 11px;
+  background: white;
+  padding: 18px 30px;
+  margin-top: 0;
+}
+
+.authorbook-info {
+  display: flex;
+  flex-direction: column;         
+  gap: 6px;
+  flex: 1;
+}
+
+.authorbook-label {
+  font-weight: 650;
+}
+
+.authorbook-image {
+  width: 80px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;              
+}
+
+.authorbook-card:hover {
+  box-shadow: 0 2px 12px 5px rgba(8, 6, 77, 0.411);
+  transition: box-shadow 0.3s ease;
+}
+
+.authorbook-card {
+  position: relative;
+  display: flex;
+  align-items: center;            
+  justify-content: space-between; 
+  gap: 20px;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 2px 12px rgba(8, 6, 77, 0.356);
+  border-radius: 11px;
+  background: white;
+  padding: 18px 30px;
+  margin-top: 0;
+  overflow: hidden;
+  cursor: pointer;                
+}
+
+.authorbook-link-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;                     
+  text-decoration: none;
+  color: inherit;
+}
+
+.authorbook-info,
+.authorbook-image {
+  position: relative;
+  z-index: 2;                    
+  pointer-events: none;          
+}
+
+.authorbook-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.authorbook-label {
+  font-weight: 650;
+}
+
+.authorbook-image {
+  width: 80px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.authorbook-card:hover {
+  box-shadow: 0 2px 12px 5px rgba(8, 6, 77, 0.411);
+  transition: box-shadow 0.3s ease;
+}
+

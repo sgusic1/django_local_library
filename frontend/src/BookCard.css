@@ -1,0 +1,35 @@
+
+.my-book-card {
+  background: none;
+  border: none;
+  box-shadow: none;
+  text-align: center;
+}
+
+.my-book-cover {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.my-book-cover:hover {
+  transform: scale(1.03);
+}
+
+.my-book-title {
+  margin-top: 0.6rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0a061fda;
+  text-align: center;
+}
+
+.delete-edit-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 42rem;
+}

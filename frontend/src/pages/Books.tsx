@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { motion } from "motion/react";
 import BookCard from "../components/BookCard";
-import type { Book, BookApiResponse } from "../types";
 import Pagination from "../components/Pagination";
-import { useNavigate, useLocation } from "react-router-dom";
+import type { Book, BookApiResponse } from "../types";
 
 function Books() {
   const [books, setBooks] = useState<Book[]>([]);
@@ -13,39 +14,57 @@ function Books() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const currentPage = Number(
-    new URLSearchParams(location.search).get("page") || 1
+
+  const currentPage = useMemo(
+    () => Number(new URLSearchParams(location.search).get("page") || 1),
+    [location.search]
   );
-  const url =
-    currentPage > 1
-      ? `http://127.0.0.1:8000/api/books/?page=${currentPage}`
-      : "http://127.0.0.1:8000/api/books/";
+
+  const url = useMemo(
+    () =>
+      currentPage > 1
+        ? `http://127.0.0.1:8000/api/books/?page=${currentPage}`
+        : "http://127.0.0.1:8000/api/books/",
+    [currentPage]
+  );
 
   useEffect(() => {
-    const cashed = localStorage.getItem(`bookApi_page_${currentPage}`);
-    if (cashed) {
-      const parsed = JSON.parse(cashed) as BookApiResponse;
-      setNumberOfBooks(parsed.count);
-      setNextUrl(parsed.next);
-      setPreviousUrl(parsed.previous);
-      setBooks(parsed.results);
-      setPageSize(parsed.page_size);
-    }
-    fetch(url)
-      .then((res) => res.json())
-      .then((data: BookApiResponse) => {
-        setNumberOfBooks(data.count);
-        setNextUrl(data.next);
-        setPreviousUrl(data.previous);
-        setBooks(data.results);
-        setPageSize(data.page_size);
-        localStorage.setItem(
-          `bookApi_page_${currentPage}`,
-          JSON.stringify(data || [])
-        );
-      })
-      .catch((err) => console.error("Fetch error:", err));
-  }, [url]);
+    let ignore = false;
+
+    const fetchBooks = async () => {
+      const cacheKey = `bookApi_page_${currentPage}`;
+      const cached = localStorage.getItem(cacheKey);
+
+      if (cached) {
+        const parsed = JSON.parse(cached) as BookApiResponse;
+        setNumberOfBooks(parsed.count);
+        setNextUrl(parsed.next);
+        setPreviousUrl(parsed.previous);
+        setBooks(parsed.results);
+        setPageSize(parsed.page_size);
+      }
+
+      try {
+        const res = await fetch(url);
+        const data: BookApiResponse = await res.json();
+        if (!ignore) {
+          setNumberOfBooks(data.count);
+          setNextUrl(data.next);
+          setPreviousUrl(data.previous);
+          setBooks(data.results);
+          setPageSize(data.page_size);
+          localStorage.setItem(cacheKey, JSON.stringify(data));
+        }
+      } catch (err) {
+        if (!ignore) console.error("Fetch error:", err);
+      }
+    };
+
+    fetchBooks();
+    return () => {
+      ignore = true;
+    };
+  }, [url, currentPage]);
 
   const handleSetUrl = (newUrl: string) => {
     const page = new URL(newUrl).searchParams.get("page") || 1;
@@ -53,29 +72,33 @@ function Books() {
   };
 
   return (
-    <>
+    <motion.div
+      key={currentPage}
+      initial={{ opacity: 0, y: 40 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -40 }}
+      transition={{ duration: 0.23, ease: "easeInOut" }}
+    >
       <div className="container mt-4">
         <div className="row row-cols-5 g-4">
           {books.map((book) => (
             <div key={book.id} className="col">
-              <a href={`/catalog/books/${book.id}`}>
+              <Link to={`/books/${book.id}/`} prefetch="none">
                 <BookCard book={book} />
-              </a>
+              </Link>
             </div>
           ))}
         </div>
       </div>
-      <div>
-        <Pagination
-          count={numberOfBooks}
-          nextUrl={nextUrl}
-          previousUrl={previousUrl}
-          page_size={pageSize}
-          url={url}
-          setUrl={handleSetUrl}
-        />
-      </div>
-    </>
+      <Pagination
+        count={numberOfBooks}
+        nextUrl={nextUrl}
+        previousUrl={previousUrl}
+        page_size={pageSize}
+        url={url}
+        setUrl={handleSetUrl}
+      />
+    </motion.div>
   );
 }
 
