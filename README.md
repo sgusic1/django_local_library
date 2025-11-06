@@ -2,22 +2,29 @@
 A compact library system built with Django.
 
 ## Features
+### Catalog
+- Browse and search Books and Authors
+- Paginated list and detail views
+### Management
+- Full CRUD flows for books and authors
 - Browse the catalog: Books and Authors
-  - List views with pagination
-  - Detail pages
-- Manage data with full create / update / delete flows
-- User accounts: sign-up, sign-in, sign-out; password change/reset
-- Access control:
-  - Login required for protected pages
-  - Model permissions (e.g. add/change/delete/view)
-  - Optional role groups (e.g. Librarian, Member)
-- Admin site tuned for quick data entry (filters, inlines)
+- Permissions-based access control
+- Fine-grained roles via Django Groups
+### User Accounts
+- Sign up, sign in, sign out
+- Password reset and password change
+- CSRF protection and secure sessions
+### Admin Panel
+- Django Admin tuned for quick data entry (filters, inlines, search)
+  
 
 ## Tech stack
-- Python + Django
-- ORM/DB: SQLite by default
+- Python 3.12+, Django 4.2+, Django REST Framework
+- Frontend: React + Vite (built output served via Django static files)
+- ORM/DB: PostgreSQL (default) / SQLite (local fallback)
 - Templates: Django Template Language (DTL)
 - Auth: django.contrib.auth (users, groups, permissions)
+- Styling: Bootstrap 5 + custom SCSS + motion library
 
 ## Quick start
 ### 1) Start your Python environment
@@ -34,7 +41,14 @@ python manage.py migrate
 ```bash
 python manage.py createsuperuser
 ```
-### 5) Run the development server
+### 5) Build the React frontend
+```bash
+cd frontend
+npm install
+npm run build
+cd ..
+```
+### 6) Run the development server
 ```bash
 python manage.py runserver
 ```
