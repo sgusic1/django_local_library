@@ -10,20 +10,21 @@ function Login() {
     setError(null);
 
     try {
-      const res = await fetch("/accounts/login/", {
+      const res = await fetch("http://127.0.0.1:8000/accounts/login/", {
         method: "POST",
         credentials: "include",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
+          "X-CSRFToken": getCookie("csrftoken"),
         },
         body: new URLSearchParams({
           username,
           password,
           csrfmiddlewaretoken: getCookie("csrftoken"),
+          next: "/catalog/",
         }),
       });
-      if (res.ok) {
-        await new Promise((r) => setTimeout(r, 100));
+      if (res.status === 200 || res.status === 302) {
         window.location.href = "/catalog/";
       } else {
         setError("Invalid username or password");

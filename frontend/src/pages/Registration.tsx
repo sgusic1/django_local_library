@@ -12,7 +12,7 @@ function Registration() {
     setError(null);
 
     try {
-      const res = await fetch("/api/register/", {
+      const res = await fetch("http://127.0.0.1:8000/api/register/", {
         method: "POST",
         credentials: "include",
         headers: {

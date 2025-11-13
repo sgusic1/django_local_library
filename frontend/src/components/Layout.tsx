@@ -14,7 +14,7 @@ function Layout() {
 
     async function loadUser() {
       try {
-        const res = await fetch("/api/currentuser/", {
+        const res = await fetch("http://127.0.0.1:8000/api/currentuser/", {
           credentials: "include",
         });
         if (res.status === 401) {

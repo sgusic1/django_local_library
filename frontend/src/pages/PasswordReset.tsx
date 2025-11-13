@@ -17,18 +17,15 @@ function PasswordReset() {
       ?.split("=")[1];
 
     try {
-      const res = await fetch(
-        "http://localhost:8000/accounts/password_reset/",
-        {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            "X-CSRFToken": csrftoken || "",
-          },
-          body: new URLSearchParams({ email }),
-        }
-      );
+      const res = await fetch("http://127.0.0.1:8000/api/password_reset/", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "X-CSRFToken": csrftoken || "",
+        },
+        body: new URLSearchParams({ email }),
+      });
 
       if (res.ok) {
         navigate("/password-reset-done", {

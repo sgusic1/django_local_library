@@ -17,7 +17,7 @@ function BookDetail() {
 
     async function loadUser() {
       try {
-        const res = await fetch("/api/currentuser/", {
+        const res = await fetch("http://127.0.0.1:8000/api/currentuser/", {
           credentials: "include",
         });
         if (res.status === 401) {
@@ -59,7 +59,7 @@ function BookDetail() {
     if (!book) return;
     if (!confirm("Are you sure you want to delete this book?")) return;
 
-    const res = await fetch(`/api/delete-book/${book.id}/`, {
+    const res = await fetch(`http://127.0.0.1:8000/api/delete-book/${book.id}/`, {
       method: "POST",
       credentials: "include",
       headers: { "X-CSRFToken": getCsrfToken() },

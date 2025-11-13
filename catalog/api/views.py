@@ -126,16 +126,15 @@ class AuthorDetailApiView(generics.RetrieveAPIView):
     serializer_class = AuthorSerializer
 
 
-class PasswordResetRedirectView(View):
-    def get(self, request, uidb64, token):
-        # Directly redirect to React before Django validates the token
-        return redirect(f"http://localhost:5173/catalog/reset/{uidb64}/{token}")
-
-
+@method_decorator(csrf_exempt, name="dispatch")
 class PasswordResetAPIView(PasswordResetView):
+    def get(self, request, *args, **kwargs):
+        return JsonResponse({"error": "GET not allowed"}, status=405)
     def form_valid(self, form):
-        form.save(request=self.request)
+        form.save(request=self.request, domain_override="127.0.0.1:8000", use_https="False")
         return JsonResponse({"status": "ok"})
+    def form_invalid(self, form):
+        return JsonResponse({"error": "Invalid email"}, status=400)
 
 
 

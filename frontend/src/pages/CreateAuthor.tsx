@@ -29,7 +29,7 @@ function CreateAuthor() {
       formData.append("date_of_birth", birthDate);
       formData.append("date_of_death", deathDate);
 
-      const res = await fetch("/api/create-author/", {
+      const res = await fetch("http://127.0.0.1:8000/api/create-author/", {
         method: "POST",
         credentials: "include",
         headers: { "X-CSRFToken": csrftoken },

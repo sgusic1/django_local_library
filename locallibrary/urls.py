@@ -20,21 +20,20 @@ from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
-from catalog.api.views import PasswordResetAPIView, PasswordResetConfirmAPIView, PasswordResetRedirectView
 from catalog.api.views import ping_csrf
+from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("accounts/password_reset/", PasswordResetAPIView.as_view(), name="password-reset-api"),
-    path("accounts/reset/<uidb64>/<token>/redirect/", PasswordResetRedirectView.as_view(), name="password-reset-redirect"),
-    path("accounts/reset/<uidb64>/<token>/confirm/", PasswordResetConfirmAPIView.as_view(), name="password-reset-confirm-api"),
 
-    path('accounts/', include('django.contrib.auth.urls')),
-    path("api/csrf/", ping_csrf, name="ping-csrf"),
+    path("accounts/login/", auth_views.LoginView.as_view(), name="login"),
+    path("accounts/logout/", auth_views.LogoutView.as_view(), name="logout"),
+
     path('api/', include('catalog.api.urls')),
+
     path('', RedirectView.as_view(url='/catalog/', permanent=False)),
-    re_path(r'^catalog/.*$', TemplateView.as_view(template_name='index.html')),  # React entry point
+    re_path(r'^catalog/.*$', TemplateView.as_view(template_name='index.html')),
 ]
 
 

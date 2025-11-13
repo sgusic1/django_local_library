@@ -21,7 +21,7 @@ function AuthorDetail() {
 
     async function loadUser() {
       try {
-        const res = await fetch("/api/currentuser/", {
+        const res = await fetch("http://127.0.0.1:8000/api/currentuser/", {
           credentials: "include",
         });
         if (res.status === 401) {
@@ -59,7 +59,7 @@ function AuthorDetail() {
     if (!author) return;
     if (!confirm("Are you sure you want to delete this author?")) return;
 
-    const res = await fetch(`/api/delete-author/${author.id}/`, {
+    const res = await fetch(`http://127.0.0.1:8000/api/delete-author/${author.id}/`, {
       method: "POST",
       credentials: "include",
       headers: { "X-CSRFToken": getCsrfToken() },

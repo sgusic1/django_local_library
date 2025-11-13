@@ -26,7 +26,7 @@ function EditBook() {
   const { id } = useParams();
 
   useEffect(() => {
-    fetch(`/api/books/${id}`)
+    fetch(`http://127.0.0.1:8000/api/books/${id}`)
       .then((res) => res.json())
       .then((data: Book) => {
         setTitle(data.title);
@@ -37,13 +37,13 @@ function EditBook() {
         setCoverUrl(data.cover_image);
         setGenres(data.genre.map((g: any) => g.id));
       });
-    fetch("/api/authors/")
+    fetch("http://127.0.0.1:8000/api/authors/")
       .then((res) => res.json())
       .then((data: AuthorApiResponse) => setAuthors(data.results ?? data));
-    fetch("/api/genres/")
+    fetch("http://127.0.0.1:8000/api/genres/")
       .then((res) => res.json())
       .then((data: Genre[]) => setAvailableGenres(data));
-    fetch("/api/languages/")
+    fetch("http://127.0.0.1:8000/api/languages/")
       .then((res) => res.json())
       .then((data: Language[]) => setLanguages(data));
   }, []);
@@ -76,7 +76,7 @@ function EditBook() {
       for (const [key, value] of formData.entries()) {
         console.log(key, value);
       }
-      const res = await fetch(`/api/books/${id}/edit`, {
+      const res = await fetch(`http://127.0.0.1:8000/api/books/${id}/edit`, {
         method: "POST",
         credentials: "include",
         headers: { "X-CSRFToken": csrftoken },

@@ -5,7 +5,7 @@ import BookCard from "../components/BookCard";
 import Pagination from "../components/Pagination";
 import type { Book, BookApiResponse } from "../types";
 
-function Books() {
+function MyBorrowed() {
   const [books, setBooks] = useState<Book[]>([]);
   const [nextUrl, setNextUrl] = useState<string | null>(null);
   const [previousUrl, setPreviousUrl] = useState<string | null>(null);
@@ -127,4 +127,4 @@ function Books() {
   );
 }
 
-export default Books;
+export default MyBorrowed;

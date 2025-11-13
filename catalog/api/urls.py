@@ -17,4 +17,7 @@ urlpatterns = [
     path("delete-author/<int:pk>/", views.DeleteAuthorAPIView.as_view(), name="delete-author"),
     path("books/<int:pk>/edit", views.EditBookAPIView.as_view(), name="edit-book"),
     path("register/", views.RegistrationAPIView.as_view(), name="registration"),
+    path("password_reset/", views.PasswordResetAPIView.as_view(), name="password-reset-api"),
+    path("password_reset/confirm/<uidb64>/<token>/", views.PasswordResetConfirmAPIView.as_view(), name="password-reset-confirm-api"),
+    path("csrf/", views.ping_csrf, name="ping-csrf"),
 ]

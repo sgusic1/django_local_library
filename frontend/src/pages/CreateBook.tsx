@@ -16,13 +16,13 @@ function CreateBook() {
   const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
 
   useEffect(() => {
-    fetch("/api/authors/")
+    fetch("http://127.0.0.1:8000/api/authors/")
       .then((res) => res.json())
       .then((data: AuthorApiResponse) => setAuthors(data.results ?? data));
-    fetch("/api/genres/")
+    fetch("http://127.0.0.1:8000/api/genres/")
       .then((res) => res.json())
       .then((data: Genre[]) => setAvailableGenres(data));
-    fetch("/api/languages/")
+    fetch("http://127.0.0.1:8000/api/languages/")
       .then((res) => res.json())
       .then((data: Language[]) => setLanguages(data));
   }, []);
@@ -53,7 +53,7 @@ function CreateBook() {
       for (const [key, value] of formData.entries()) {
         console.log(key, value);
       }
-      const res = await fetch("/api/create-book/", {
+      const res = await fetch("http://127.0.0.1:8000/api/create-book/", {
         method: "POST",
         credentials: "include",
         headers: { "X-CSRFToken": csrftoken },

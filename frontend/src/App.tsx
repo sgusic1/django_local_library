@@ -40,7 +40,10 @@ function AnimatedRoutes() {
           <Route path="login" element={<Login />} />
           <Route path="password-reset" element={<PasswordReset />} />
           <Route path="password-reset-done" element={<PasswordResetDone />} />
-          <Route path="reset/:uid/:token" element={<PasswordResetConfirm />} />
+          <Route
+            path="password_reset/:uid/:token"
+            element={<PasswordResetConfirm />}
+          />
           <Route path="my-borrowed" element={<MyBorrowed />} />
           <Route path="create-book" element={<CreateBook />} />
           <Route path="create-author" element={<CreateAuthor />} />

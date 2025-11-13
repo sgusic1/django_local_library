@@ -21,7 +21,7 @@ function PasswordResetConfirm() {
 
     try {
       const res = await fetch(
-        `http://localhost:8000/accounts/reset/${uid}/${token}/confirm/`,
+        `http://127.0.0.1:8000/api/password_reset/confirm/${uid}/${token}/`,
         {
           method: "POST",
           credentials: "include",
