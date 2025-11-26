@@ -32,7 +32,7 @@ function Books() {
     let ignore = false;
 
     const fetchBooks = async () => {
-      const cacheKey = `bookApi_page_${currentPage}`;
+      const cacheKey = `books_page_${currentPage}`;
       const cached = localStorage.getItem(cacheKey);
 
       if (cached) {

@@ -1,6 +1,7 @@
 import type { Book } from "../types";
 import Copies from "./Copies";
 import { motion } from "motion/react";
+import React from "react";
 
 interface Props {
   book: Book | null;
@@ -76,4 +77,4 @@ function BookDetailCard({ book }: Props) {
   );
 }
 
-export default BookDetailCard;
+export default React.memo(BookDetailCard);

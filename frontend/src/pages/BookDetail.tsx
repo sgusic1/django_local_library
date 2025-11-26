@@ -37,33 +37,42 @@ function BookDetail() {
     loadUser();
   }, []);
 
-  const [book, setBook] = useState<Book | null>(null);
+  const [book, setBook] = useState<Book | null | undefined>(undefined);
   const { id } = useParams();
   const url = `http://127.0.0.1:8000/api/books/${id}/`;
 
   useEffect(() => {
-    const cashed = localStorage.getItem("bookDetail");
-    if (cashed) {
-      const parsed = JSON.parse(cashed) as Book;
-      setBook(parsed);
+    if (!id) return;
+
+    const cachedKey = `book_detail_${id}`;
+    const cached = localStorage.getItem(cachedKey);
+    if (cached) {
+      const parsed = JSON.parse(cached) as Book;
+      if (parsed.id === Number(id)) setBook(parsed);
     }
     fetch(url)
       .then((res) => res.json())
       .then((data: Book) => {
         setBook(data);
-        localStorage.setItem("bookDetail", JSON.stringify(data || null));
+        localStorage.setItem(cachedKey, JSON.stringify(data || null));
+      })
+      .catch(() => {
+        setBook(null);
       });
-  }, []);
+  }, [id]);
 
   async function handleDelete() {
     if (!book) return;
     if (!confirm("Are you sure you want to delete this book?")) return;
 
-    const res = await fetch(`http://127.0.0.1:8000/api/delete-book/${book.id}/`, {
-      method: "POST",
-      credentials: "include",
-      headers: { "X-CSRFToken": getCsrfToken() },
-    });
+    const res = await fetch(
+      `http://127.0.0.1:8000/api/delete-book/${book.id}/`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: { "X-CSRFToken": getCsrfToken() },
+      }
+    );
 
     if (res.ok) {
       alert("Book deleted!");
@@ -87,6 +96,10 @@ function BookDetail() {
     if (book) window.location.href = `/catalog/books/${book.id}/edit`;
   }
 
+  if (!book) {
+    return <div></div>;
+  }
+
   return (
     <>
       <div>
@@ -104,7 +117,7 @@ function BookDetail() {
         </div>
       </div>
       <div>
-        <BookDetailCard book={book} />
+        <BookDetailCard book={book ?? null} />
       </div>
       <div className="delete-edit-buttons">
         {user && user.permissions.includes("catalog.delete_book") && (
