@@ -38,7 +38,7 @@ function MyBorrowed() {
     }
 
     const fetchBooks = async () => {
-      const cacheKey = `myborrowed_page_${currentPage}`;
+      const cacheKey = `_page_${currentPage}`;
       const cached = localStorage.getItem(cacheKey);
 
       if (cached) {
