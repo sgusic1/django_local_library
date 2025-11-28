@@ -115,7 +115,7 @@ function Books() {
               {books.map((book) => (
                 <div key={book.id} className="col">
                   <Link to={`/books/${book.id}/`} prefetch="none">
-                    <BookCard book={book} />
+                    <BookCard book={book} hideImage={loadingImages} />
                   </Link>
                 </div>
               ))}
