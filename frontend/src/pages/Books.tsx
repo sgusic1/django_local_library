@@ -31,51 +31,11 @@ function Books() {
 
   useEffect(() => {
     let ignore = false;
+    setLoadingImages(true);
     console.log(`1. ${loadingImages}`);
-    const fetchBooks = async () => {
-      const cacheKey = `books_page_${currentPage}`;
-      const cached = localStorage.getItem(cacheKey);
 
-      if (cached) {
-        const parsed = JSON.parse(cached) as BookApiResponse;
-        setNumberOfBooks(parsed.count);
-        setNextUrl(parsed.next);
-        setPreviousUrl(parsed.previous);
-        setBooks(parsed.results);
-        setPageSize(parsed.page_size);
-      }
-
-      console.log(`2. ${loadingImages}`);
-
-      try {
-        const res = await fetch(url);
-        const data: BookApiResponse = await res.json();
-        if (!ignore) {
-          setNumberOfBooks(data.count);
-          setNextUrl(data.next);
-          setPreviousUrl(data.previous);
-          setBooks(data.results);
-          setPageSize(data.page_size);
-          localStorage.setItem(cacheKey, JSON.stringify(data));
-        }
-        console.log(`3. ${loadingImages}`);
-      } catch (err) {
-        if (!ignore) console.error("Fetch error:", err);
-      }
-    };
-
-    fetchBooks();
-    return () => {
-      ignore = true;
-    };
-  }, [url, currentPage]);
-
-  useEffect(() => {
-    if (books.length === 0) return;
-    console.log(`4. ${loadingImages}`);
-
-    const preload = async () => {
-      const promises = books.map(
+    const preload = async (preload_books: Book[]) => {
+      const promises = preload_books.map(
         (book) =>
           new Promise((resolve) => {
             const img = new Image();
@@ -86,12 +46,58 @@ function Books() {
       );
 
       await Promise.all(promises);
-      setLoadingImages(false);
-      console.log(`5. ${loadingImages}`);
     };
 
-    preload();
-  }, [books]);
+    console.log(`2. ${loadingImages}`);
+
+    const fetchBooks = async () => {
+      const cacheKey = `books_page_${currentPage}`;
+      const cached = localStorage.getItem(cacheKey);
+      console.log(`3. ${loadingImages}`);
+      if (cached) {
+        setLoadingImages(true);
+        console.log(`4. ${loadingImages}`);
+        const parsed = JSON.parse(cached) as BookApiResponse;
+        setNumberOfBooks(parsed.count);
+        setNextUrl(parsed.next);
+        setPreviousUrl(parsed.previous);
+        const booksFromCache = parsed.results;
+        await preload(booksFromCache);
+        setBooks(booksFromCache);
+        setLoadingImages(false);
+        setPageSize(parsed.page_size);
+        console.log(`5. ${loadingImages}`);
+      }
+
+      console.log(`6. ${loadingImages}`);
+
+      try {
+        setLoadingImages(true);
+        console.log(`7. ${loadingImages}`);
+        const res = await fetch(url);
+        const data: BookApiResponse = await res.json();
+        if (!ignore) {
+          setNumberOfBooks(data.count);
+          setNextUrl(data.next);
+          setPreviousUrl(data.previous);
+          const booksFromFetch = data.results;
+          await preload(booksFromFetch);
+          setBooks(booksFromFetch);
+          setLoadingImages(false);
+          setPageSize(data.page_size);
+          localStorage.setItem(cacheKey, JSON.stringify(data));
+        }
+        console.log(`8. ${loadingImages}`);
+      } catch (err) {
+        if (!ignore) console.error("Fetch error:", err);
+      }
+    };
+
+    fetchBooks();
+    return () => {
+      ignore = true;
+    };
+  }, [url, currentPage]);
 
   const handleSetUrl = (newUrl: string) => {
     const page = new URL(newUrl).searchParams.get("page") || 1;
